@@ -16,7 +16,8 @@ class CreateSubModulesTable extends Migration
         Schema::create('sub_modules', function (Blueprint $table) {
             $table->id()->from(2000);
             $table->unsignedInteger('module_id');
-            $table->string('name',30);
+            $table->string('name',50);
+            $table->integer('sequence')->default(1);
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });

@@ -17,8 +17,9 @@ class CreatePagesTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('sub_module_id');
-            $table->string('name',30);
+            $table->string('name',50);
             $table->string('route_name',50);
+            $table->binary('is_landing_page')->default(0);
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });

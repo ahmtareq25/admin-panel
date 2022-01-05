@@ -22,3 +22,8 @@ Route::get('/t', function () {
     echo cache()->get('name');
     dd('Event Run Successfully.');
 });
+
+Route::group(['prefix'=> 'admin'], function(){
+
+    Route::get('/', 'HomeController@index')->name('home');
+});

@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Module;
+use App\Models\Page;
 use App\Models\Role;
+use App\Models\RolePage;
 use App\Models\SubModule;
 use App\Models\User;
 use App\Models\UserRole;
@@ -23,17 +25,29 @@ class BasicSetupSeeder extends Seeder
         try {
             DB::beginTransaction();
 
-            Module::create([
-                'id' => 1000,
-                'name' => 'Access Control'
-            ]);
+            $moduleRow = [
+                [
+                    'id' => 1000,
+                    'name' => 'Access Control',
+                    'sequence' => 1,
+                ],
+                [
+                    'id' => 1001,
+                    'name' => 'Configuration',
+                    'sequence' => 2,
+                ]
+            ];
+
+            Module::insert($moduleRow);
 
 
             $subModuleRows = [
-                ['id' => 2000, 'module_id' => 1000, 'name' => 'User Management'],
-                ['id' => 2001, 'module_id' => 1000, 'name' => 'Role Management'],
-                ['id' => 2002, 'module_id' => 1000, 'name' => 'Page Management'],
-                ['id' => 2003, 'module_id' => 1000, 'name' => 'Role & Page Association'],
+                ['id' => 2000, 'module_id' => 1000, 'name' => 'User Management', 'sequence' => 1],
+                ['id' => 2001, 'module_id' => 1000, 'name' => 'Role Management', 'sequence' => 2],
+                ['id' => 2002, 'module_id' => 1000, 'name' => 'Role & Page Association', 'sequence' => 3],
+
+                ['id' => 2003, 'module_id' => 1001, 'name' => 'System Settings', 'sequence' => 1],
+
             ];
             SubModule::insert($subModuleRows);
 
@@ -58,10 +72,48 @@ class BasicSetupSeeder extends Seeder
                 'role_id' => 1
             ]);
 
+            $pageRows = [
+                ['id' => 1, 'module_id' => 1000, 'sub_module_id' => 2000, 'name' => 'User Landing', 'route_name' => config('routename.USER_LANDING'), 'is_landing_page' => 1],
+                ['id' => 2, 'module_id' => 1000, 'sub_module_id' => 2000, 'name' => 'User Add', 'route_name' => config('routename.USER_ADD'), 'is_landing_page' => 0],
+                ['id' => 3, 'module_id' => 1000, 'sub_module_id' => 2000, 'name' => 'User Edit', 'route_name' => config('routename.USER_EDIT'), 'is_landing_page' => 0],
+                ['id' => 4, 'module_id' => 1000, 'sub_module_id' => 2000, 'name' => 'User Delete', 'route_name' => config('routename.USER_DELETE'), 'is_landing_page' => 0],
+
+                ['id' => 5, 'module_id' => 1000, 'sub_module_id' => 2001, 'name' => 'Role Landing', 'route_name' => config('routename.ROLE_LANDING'), 'is_landing_page' => 1],
+                ['id' => 6, 'module_id' => 1000, 'sub_module_id' => 2001, 'name' => 'Role Add', 'route_name' => config('routename.ROLE_ADD'), 'is_landing_page' => 0],
+                ['id' => 7, 'module_id' => 1000, 'sub_module_id' => 2001, 'name' => 'Role Edit', 'route_name' => config('routename.ROLE_EDIT'), 'is_landing_page' => 0],
+                ['id' => 8, 'module_id' => 1000, 'sub_module_id' => 2001, 'name' => 'Role Delete', 'route_name' => config('routename.ROLE_DELETE'), 'is_landing_page' => 0],
+
+                ['id' => 9, 'module_id' => 1000, 'sub_module_id' => 2002, 'name' => 'Role & Page Association Landing', 'route_name' => config('routename.ROLE_AND_PAGE_ASSOCIATION_LANDING'), 'is_landing_page' => 1],
+                ['id' => 10, 'module_id' => 1000, 'sub_module_id' => 2002, 'name' => 'Role & Page Association Update', 'route_name' => config('routename.ROLE_AND_PAGE_ASSOCIATION_UPDATE'), 'is_landing_page' => 0],
+
+                ['id' => 11, 'module_id' => 1001, 'sub_module_id' => 2003, 'name' => 'System Settings Landing', 'route_name' => config('routename.SYSTEM_SETTING_LANDING'), 'is_landing_page' => 1],
+                ['id' => 12, 'module_id' => 1001, 'sub_module_id' => 2003, 'name' => 'System Settings Update', 'route_name' => config('routename.SYSTEM_SETTING_UPDATE'), 'is_landing_page' => 0],
+
+            ];
+
+            Page::insert($pageRows);
+
+            $rolePage = [
+                ['role_id' => 1, 'page_id' => 1],
+                ['role_id' => 1, 'page_id' => 2],
+                ['role_id' => 1, 'page_id' => 3],
+                ['role_id' => 1, 'page_id' => 4],
+                ['role_id' => 1, 'page_id' => 5],
+                ['role_id' => 1, 'page_id' => 6],
+                ['role_id' => 1, 'page_id' => 7],
+                ['role_id' => 1, 'page_id' => 8],
+                ['role_id' => 1, 'page_id' => 9],
+                ['role_id' => 1, 'page_id' => 10],
+                ['role_id' => 1, 'page_id' => 11],
+                ['role_id' => 1, 'page_id' => 12],
+            ];
+
+            RolePage::insert($rolePage);
+
 
             DB::commit();
         } catch (\Exception $exception) {
-            \Illuminate\Support\Facades\DB::rollBack();
+            DB::rollBack();
         }
 
 

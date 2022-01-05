@@ -15,7 +15,7 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('name',30);
+            $table->string('name',50);
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });
