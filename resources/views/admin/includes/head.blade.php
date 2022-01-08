@@ -1,4 +1,4 @@
-<head>
+{{--<head>--}}
 
     <meta charset="utf-8"/>
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
@@ -17,4 +17,4 @@
     <link href="{{asset('assets/css/demo.css')}}" rel="stylesheet"/>
 
     @yield('css_code')
-</head>
+{{--</head>--}}

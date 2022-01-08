@@ -1,9 +1,13 @@
-<div class="sidebar" data-image="{{asset('assets/img/sidebar-5.jpg')}}">
+<div class="sidebar" data-image="{{asset('assets/img/sidebar-4.jpg')}}" data-color="black">
 
-    <div class="sidebar-wrapper">
-        <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text">
-                Creative Tim
+    <div class="sidebar-wrapper scroll">
+
+        <div class="logo d-flex justify-content-center">
+{{--            <a href="https://www.creative-tim.com/?_ga=2.147099319.1848398775.1641599794-520301098.1641322474" class="simple-text logo-mini">--}}
+{{--                Ct--}}
+{{--            </a>--}}
+            <a href="{{route('home')}}" class="simple-text logo-normal">
+                Faltu Admin Panel
             </a>
         </div>
         <ul class="nav">
@@ -31,7 +35,13 @@
                     <div class="collapse" id="{{$collapseId}}" style="">
                         <ul class="nav">
                             @foreach($manu['sub_modules'] as $subModule)
-                            <li class="nav-item ">
+                                @php
+                                $active = '';
+                                if (Route::currentRouteName() == $subModule['route_name']){
+                                $active = 'active';
+                                }
+                                @endphp
+                            <li class="nav-item ml-3  {{$active}}">
                                 <a class="nav-link" href="{{Route::has($subModule['route_name']) ? route($subModule['route_name']) : '#'}}">
 {{--                                    <span class="sidebar-mini">Rf</span>--}}
                                     <span class="sidebar-normal">{{ $subModule['sub_module_name'] }}</span>

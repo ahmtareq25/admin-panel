@@ -17,9 +17,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
+        // demo.initDashboardPageCharts();
 
-        demo.showNotification();
+
+        // $('.nav-item').find('.active').parent('a').addClass('')
+        var moduleLi = $('.nav-item').find('.active').parents('li');
+        moduleLi.addClass('active');
+        moduleLi.children('div').addClass('show')
+
 
     });
 </script>

@@ -74,6 +74,7 @@ trait PermissionTrait
 
         session()->put('side_bar_array', $sidebarArr);
         session()->put('permitted_route_list', $routeList);
+        session()->put('permission_version', $permissions[0]->permission_version);
 
 
 
