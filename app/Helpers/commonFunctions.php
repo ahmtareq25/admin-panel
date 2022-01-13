@@ -4,7 +4,29 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 function hasPermission($route_name){
-    return in_array($route_name, session()->get('permitted_route_list'));
+    $routeList = empty(session()->get('permitted_route_list')) ? []: session()->get('permitted_route_list');
+    return array_key_exists($route_name, $routeList);
+}
+
+function getCurrentRouteSubModuleId($route_name){
+    $sub_module_id = 0;
+    $routeList = empty(session()->get('permitted_route_list')) ? []: session()->get('permitted_route_list');
+    if (array_key_exists($route_name, $routeList)){
+        $sub_module_id = $routeList[$route_name]['sub_module_id'];
+    }
+
+    return $sub_module_id;
+
+}
+
+function getCurrentRouteModuleId($route_name){
+    $module_id = 0;
+    $routeList = empty(session()->get('permitted_route_list')) ? []: session()->get('permitted_route_list');
+    if (array_key_exists($route_name, $routeList)){
+        $module_id = $routeList[$route_name]['module_id'];
+    }
+    return $module_id;
+
 }
 
 function createLog($logData){

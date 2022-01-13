@@ -10,6 +10,13 @@
 <script src="{{asset('assets/js/plugins/chartist.min.js')}}"></script>
 <!--  Notifications Plugin    -->
 <script src="{{asset('assets/js/plugins/bootstrap-notify.js')}}"></script>
+
+<script src="{{asset('assets/js/plugins/sweetalert2.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/plugins/alertify.js')}}" type="text/javascript"></script>
+
+<script src="{{asset('assets/js/plugins/bootstrap-selectpicker.js')}}"></script>
+
+
 <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
 <script src="{{asset('assets/js/light-bootstrap-dashboard.js?v=2.0.0')}} " type="text/javascript"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
@@ -20,13 +27,52 @@
         // demo.initDashboardPageCharts();
 
 
-        // $('.nav-item').find('.active').parent('a').addClass('')
+
+        //sidebar managing
         var moduleLi = $('.nav-item').find('.active').parents('li');
         moduleLi.addClass('active');
         moduleLi.children('div').addClass('show')
 
 
     });
+    $('.selectpicker').selectpicker();
+
+
+    // prevent duplicate click on form submission
+    $('form.preventOnSubmit').submit(function() {
+        $(this).find('.disableOnClick').html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
+        console.log("clicked on submit button");
+    });
+
+
+    function deleteAction(formName) {
+        alertify.confirm("{{ __('Are you sure?')}}", function () {
+            $('#' + formName).submit();
+        }, function (event) {
+            event.preventDefault();
+        });
+        $('button.cancel').addClass('btn btn-light').text("{{ __('Cancel')}}");
+        $('button.ok').addClass('btn btn-danger').text("{{ __('Yes')}}");
+    }
+
+    // $('.sidebar-link').on('click', function (e) {
+    //     e.preventDefault();
+    //     var url = $(this).attr('href');
+    //
+    //     $.ajax({
+    //         type: 'GET', //THIS NEEDS TO BE GET
+    //         url: url,
+    //         success: function (response) {
+    //             window.history.pushState("object or string", "Title", url);
+    //             $('.gap').html(response.data.view)
+    //
+    //               //// For replace with previous one
+    //         },
+    //         error: function() {
+    //             console.log(data);
+    //         }
+    //     });
+    // })
 </script>
 
 @yield('js_code')

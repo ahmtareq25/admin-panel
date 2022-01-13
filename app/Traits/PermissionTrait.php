@@ -50,13 +50,17 @@ trait PermissionTrait
         $routeList = [];
 
         foreach ($permissions as $permission){
-            $routeList[] = $permission['page_route_name'];
+            $routeList[$permission['page_route_name']] = [
+                'module_id' => $permission['module_id'],
+                'sub_module_id' => $permission['sub_module_id'],
+            ];
             if ($permission['is_landing_page'] == Page::IS_LANDING_PAGE){
 
                 $sidebarArr[$permission['module_id']]['module_name'] = $permission['module_name'];
                 $sidebarArr[$permission['module_id']]['module_sequence'] = $permission['module_sequence'];
                 $sidebarArr[$permission['module_id']]['sub_modules'][] = [
                     'sub_module_name' => $permission['sub_module_name'],
+                    'sub_module_id' => $permission['sub_module_id'],
                     'route_name' => $permission['page_route_name'],
                     'sub_module_sequence' => $permission['sub_module_sequence']
                 ];

@@ -17,8 +17,6 @@ class CreateUserRolesTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('role_id');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
         });
     }
 

@@ -63,9 +63,15 @@
                         <a class="dropdown-item" href="#">
                             <i class="nc-icon nc-lock-circle-open"></i> Lock Screen
                         </a>
-                        <a href="#" class="dropdown-item text-danger">
-                            <i class="nc-icon nc-button-power"></i> Log out
+                        <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            <i class="nc-icon nc-button-power"></i>{{ __('Logout') }}
                         </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div>
                 </li>
             </ul>

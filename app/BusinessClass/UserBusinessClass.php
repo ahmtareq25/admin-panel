@@ -32,7 +32,7 @@ class UserBusinessClass
             }
 
             $roleData = $requestData['roles'];
-            $userObj->roles->attach($roleData);
+            $userObj->roles()->attach($roleData);
 
             DB::commit();
 
@@ -44,12 +44,74 @@ class UserBusinessClass
             DB::rollBack();
             $this->status_code = config('systemresponse.OPERATION_FAILED.CODE');
             $this->status_message = config('systemresponse.OPERATION_FAILED.MESSAGE');
+
+            $logData = [
+                'action' => 'USER ADD EXCEPTION',
+                'message' => $exception->getMessage()
+            ];
+            createLog($logData);
+
+
         }
 
     }
 
     public function processUserUpdate($requestData, $id){
 
+    }
+
+    public function processUserDelete($id, $authUserObj){
+
+        if ($id == $authUserObj->id){
+            $this->status_code = config('systemresponse.AUTH_USER_DELETE_FAILED.CODE');
+            $this->status_message = config('systemresponse.AUTH_USER_DELETE_FAILED.MESSAGE');
+        }
+
+        if (empty($this->status_code)){
+            $this->userObj = $this->findUserById($id);
+
+            if (empty($this->userObj)){
+                $this->status_code = config('systemresponse.OBJECT_NOT_FOUND.CODE');
+                $this->status_message = config('systemresponse.OBJECT_NOT_FOUND.MESSAGE');
+            }
+        }
+
+        if (empty($this->status_code) && $this->userObj->id == $authUserObj->parent_user_id){
+            $this->status_code = config('systemresponse.PARENT_USER_DELETE_FAILED.CODE');
+            $this->status_message = config('systemresponse.PARENT_USER_DELETE_FAILED.MESSAGE');
+        }
+
+        if (empty($this->status_code)){
+            try {
+                DB::beginTransaction();
+
+
+                $this->userObj->roles()->detach();
+
+                $this->deleteById($this->userObj->id);
+
+                DB::commit();
+
+                $this->status_code = config('systemresponse.OPERATION_SUCCESS.CODE');
+                $this->status_message = config('systemresponse.OPERATION_SUCCESS.MESSAGE');
+
+            }catch (\Exception $exception){
+                DB::rollBack();
+                $this->status_code = config('systemresponse.OPERATION_FAILED.CODE');
+                $this->status_message = config('systemresponse.OPERATION_FAILED.MESSAGE');
+
+
+
+            }
+
+        }
+
+        $logData = [
+            'action' => 'USER DELETE',
+            'status_code' => $this->status_code,
+            'status_message' => $this->status_message,
+        ];
+        createLog($logData);
     }
 
 
@@ -63,6 +125,7 @@ class UserBusinessClass
             });
         }
 
+        $query->orderBy('updated_at', 'DESC');
         if (!empty($search['page_limit'])){
             $res = $query->paginate($search['page_limit']);
         }else{
@@ -83,6 +146,10 @@ class UserBusinessClass
         return User::query()->where('phone_number', $phone)->first();
     }
 
+    public function deleteById($id){
+        User::destroy($id);
+    }
+
     private function prepareUserData($requestData, $parent_user_id){
         unset($requestData['confirm_password']);
         unset($requestData['roles']);
@@ -92,4 +159,6 @@ class UserBusinessClass
         }
         return $requestData;
     }
+
+
 }

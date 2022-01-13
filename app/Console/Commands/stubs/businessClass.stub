@@ -4,5 +4,7 @@ namespace App\BusinessClass;
 
 class {{class}}
 {
-  //
+    public $status_code;
+    public $status_message;
+
 }

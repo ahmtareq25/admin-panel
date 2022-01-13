@@ -113,6 +113,12 @@ class BasicSetupSeeder extends Seeder
 
             DB::commit();
         } catch (\Exception $exception) {
+            $logData = [
+                'action' => 'Migration Exception',
+                'message' => $exception->getMessage()
+            ];
+            createLog($logData);
+
             DB::rollBack();
         }
 

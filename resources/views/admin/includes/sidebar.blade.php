@@ -37,12 +37,13 @@
                             @foreach($manu['sub_modules'] as $subModule)
                                 @php
                                 $active = '';
-                                if (Route::currentRouteName() == $subModule['route_name']){
+                                if (Route::currentRouteName() == $subModule['route_name']
+                                || $subModule['sub_module_id'] == getCurrentRouteSubModuleId(Route::currentRouteName())){
                                 $active = 'active';
                                 }
                                 @endphp
                             <li class="nav-item ml-3  {{$active}}">
-                                <a class="nav-link" href="{{Route::has($subModule['route_name']) ? route($subModule['route_name']) : '#'}}">
+                                <a class="nav-link sidebar-link" href="{{Route::has($subModule['route_name']) ? route($subModule['route_name']) : '#'}}">
 {{--                                    <span class="sidebar-mini">Rf</span>--}}
                                     <span class="sidebar-normal">{{ $subModule['sub_module_name'] }}</span>
                                 </a>

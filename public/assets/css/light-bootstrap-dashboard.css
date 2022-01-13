@@ -3706,7 +3706,7 @@ fieldset[disabled] .form-control {
 }
 
 .table-full-width {
-    margin-left: -15px;
+    /*margin-left: -15px;*/
     margin-right: -15px;
     padding: 15px !important;
 }
@@ -7560,7 +7560,7 @@ fieldset[disabled] .form-control {
 
 @media (min-width: 992px) {
     .table-full-width {
-        margin-left: -15px;
+        /*margin-left: -15px;*/
         margin-right: -15px;
     }
     .table-responsive {

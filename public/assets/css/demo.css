@@ -6,6 +6,11 @@
     background-color: #777777;
 }
 
+.loginBG {
+    background: url(../img/loginBG.jpg) no-repeat top left;
+    background-size: cover;
+}
+
 .typography-line {
     padding-left: 25%;
     margin-bottom: 35px;

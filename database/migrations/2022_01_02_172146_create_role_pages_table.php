@@ -17,8 +17,6 @@ class CreateRolePagesTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedInteger('role_id');
             $table->unsignedInteger('page_id');
-            $table->dateTime('created_at')->nullable();
-            $table->dateTime('updated_at')->nullable();
         });
     }
 
