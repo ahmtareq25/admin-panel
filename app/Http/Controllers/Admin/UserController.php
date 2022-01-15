@@ -6,6 +6,7 @@ use App\BusinessClass\UserBusinessClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest\UserRequest;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,7 +16,6 @@ class UserController extends Controller
 
         $data['search'] = $search;
         $data['users'] = (new UserBusinessClass())->getUsers($search);
-
 
         return view('admin.pages.user.index', $data);
     }
@@ -32,7 +32,7 @@ class UserController extends Controller
         }
 
         $data = [
-            'roles' => Role::all()
+            'roles' => (new Role())->getAllRole(),
         ];
 
         return view('admin.pages.user.add', $data);
@@ -40,11 +40,23 @@ class UserController extends Controller
 
     public function edit(UserRequest $request, $id){
 
-        if ($request->isMethod('UPDATE')) {
+        if ($request->isMethod('POST')) {
+            $userBusinessClass = new UserBusinessClass();
+            $userBusinessClass->processUserUpdate($request->only($userBusinessClass->getRequestParams()), $id);
+
+            return $this->commonFlashResponse($userBusinessClass->status_code, $userBusinessClass->status_message);
 
         }
 
-        return view('admin.pages.user.edit');
+        $userObj = (new User())->findUserById($id);
+
+        $data = [
+            'roles' => (new Role())->getAllRole(),
+            'userObj' => $userObj,
+            'userRoles' => $userObj->userRoles
+        ];
+
+        return view('admin.pages.user.edit',$data);
     }
 
     public function delete($id){

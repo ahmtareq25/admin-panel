@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::match(['GET', 'POST'],'/add', 'Admin\UserController@add')
                 ->name(config('routename.USER_ADD'));
 
-            Route::match(['GET', 'UPDATE'],'/edit/{id}', 'Admin\UserController@edit')
+            Route::match(['GET', 'POST'],'/edit/{id}', 'Admin\UserController@edit')
                 ->name(config('routename.USER_EDIT'));
 
             Route::delete('/delete/{id}', 'Admin\UserController@delete')

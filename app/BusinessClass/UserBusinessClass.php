@@ -20,6 +20,8 @@ class UserBusinessClass
 
     public function processUserCreate($requestData, $parent_user_id = 0){
 
+        $logData['action'] = 'USER ADD';
+
         $userData = $this->prepareUserData($requestData, $parent_user_id);
 
         try {
@@ -29,6 +31,7 @@ class UserBusinessClass
 
             if (empty($parent_user_id)){
                 $userObj->parent_user_id = $userObj->id;
+                $userObj->save();
             }
 
             $roleData = $requestData['roles'];
@@ -44,20 +47,57 @@ class UserBusinessClass
             DB::rollBack();
             $this->status_code = config('systemresponse.OPERATION_FAILED.CODE');
             $this->status_message = config('systemresponse.OPERATION_FAILED.MESSAGE');
-
-            $logData = [
-                'action' => 'USER ADD EXCEPTION',
-                'message' => $exception->getMessage()
-            ];
-            createLog($logData);
-
-
+            $logData['exception'] = $exception->getMessage();
         }
+
+        $logData = $logData + [
+                'status_code' => $this->status_code,
+                'status_message' => $this->status_message,
+            ];
+        createLog($logData);
 
     }
 
     public function processUserUpdate($requestData, $id){
+        $logData['action'] = 'USER UPDATE';
+        $this->userObj = (new User())->findUserById($id);
 
+        if (empty($this->userObj)){
+            $this->status_code = config('systemresponse.OBJECT_NOT_FOUND.CODE');
+            $this->status_message = config('systemresponse.OBJECT_NOT_FOUND.MESSAGE');
+        }
+
+
+        if (empty($this->status_code)){
+            try {
+                DB::beginTransaction();
+                $userData = $this->prepareUserData($requestData);
+
+                $this->userObj->update($userData);
+                $roleData = $requestData['roles'];
+                $this->userObj->roles()->sync($roleData);
+
+                DB::commit();
+
+                $this->status_code = config('systemresponse.OPERATION_SUCCESS.CODE');
+                $this->status_message = config('systemresponse.OPERATION_SUCCESS.MESSAGE');
+
+            }catch (\Exception $exception){
+                DB::rollBack();
+                $this->status_code = config('systemresponse.OPERATION_FAILED.CODE');
+                $this->status_message = config('systemresponse.OPERATION_FAILED.MESSAGE');
+                $logData['exception'] = $exception->getMessage();
+
+
+            }
+
+        }
+
+        $logData = $logData + [
+                'status_code' => $this->status_code,
+                'status_message' => $this->status_message,
+            ];
+        createLog($logData);
     }
 
     public function processUserDelete($id, $authUserObj){
@@ -68,7 +108,7 @@ class UserBusinessClass
         }
 
         if (empty($this->status_code)){
-            $this->userObj = $this->findUserById($id);
+            $this->userObj = (new User())->findUserById($id);
 
             if (empty($this->userObj)){
                 $this->status_code = config('systemresponse.OBJECT_NOT_FOUND.CODE');
@@ -88,7 +128,7 @@ class UserBusinessClass
 
                 $this->userObj->roles()->detach();
 
-                $this->deleteById($this->userObj->id);
+                (new User())->deleteById($this->userObj->id);
 
                 DB::commit();
 
@@ -134,26 +174,18 @@ class UserBusinessClass
         return $res;
     }
 
-    public function findUserById($id){
-        return User::find($id);
-    }
 
-    public function findUserByEmail($email){
-        return User::query()->where('email', $email)->first();
-    }
 
-    public function findUserByPhone($phone){
-        return User::query()->where('phone_number', $phone)->first();
-    }
-
-    public function deleteById($id){
-        User::destroy($id);
-    }
-
-    private function prepareUserData($requestData, $parent_user_id){
+    private function prepareUserData($requestData, $parent_user_id = 0){
         unset($requestData['confirm_password']);
         unset($requestData['roles']);
-        $requestData['password'] = Hash::make($requestData['password']);
+
+        if (!empty($requestData['password'])){
+            $requestData['password'] = Hash::make($requestData['password']);
+        }else{
+            unset($requestData['password']);
+        }
+
         if (!empty($parent_user_id)){
             $requestData['parent_user_id'] = $parent_user_id;
         }

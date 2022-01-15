@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email',50)->unique();
             $table->string('phone_number',50)->unique();
             $table->dateTime('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->integer('permission_version')->nullable()->default(0);
             $table->string('session_id')->nullable();
             $table->integer('parent_user_id')->nullable()->default(0);

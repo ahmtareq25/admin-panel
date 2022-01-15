@@ -45,4 +45,24 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
+    public function userRoles(){
+        return $this->hasMany(UserRole::class);
+    }
+
+    public function findUserById($id){
+        return User::find($id);
+    }
+
+    public function findUserByEmail($email){
+        return User::query()->where('email', $email)->first();
+    }
+
+    public function findUserByPhone($phone){
+        return User::query()->where('phone_number', $phone)->first();
+    }
+
+    public function deleteById($id){
+        User::destroy($id);
+    }
+
 }
