@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="card-footer ml-auto mr-auto">
-                    <button type="submit" class="btn btn-warning btn-wd">Login</button>
+                    <button type="submit" class="btn btn-default btn-wd">Login</button>
                 </div>
             </div>
         </form>

@@ -160,3 +160,11 @@ function ToXML(\SimpleXMLElement $object, array $data)
     }
 }
 
+function commonDateFormat($date, $type =1){
+    if (!$date instanceof Carbon){
+        $date = Carbon::parse($date);
+    }
+    $date->format('Y-m-d');
+    return $date;
+}
+

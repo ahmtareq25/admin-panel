@@ -1,4 +1,4 @@
-<div class="fixed-plugin">
+{{--<div class="fixed-plugin">
     <div class="dropdown show-dropdown">
         <a href="#" data-toggle="dropdown">
             <i class="fa fa-cog fa-2x"> </i>
@@ -52,7 +52,7 @@
                 </a>
             </li>
 
-            {{--<li class="button-container">
+            --}}{{--<li class="button-container">
                 <div class="">
                     <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard" target="_blank" class="btn btn-info btn-block btn-fill">Download, it's free!</a>
                 </div>
@@ -71,14 +71,14 @@
             <li class="button-container">
                 <button id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i> · 256</button>
                 <button id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i> · 426</button>
-            </li>--}}
+            </li>--}}{{--
 
 
             <li class="button-container">
                 <div class="">
-{{--                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro" target="_blank" class="btn btn-warning btn-block btn-fill">Get The PRO Version!</a>--}}
+--}}{{--                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro" target="_blank" class="btn btn-warning btn-block btn-fill">Get The PRO Version!</a>--}}{{--
                 </div>
             </li>
         </ul>
     </div>
-</div>
+</div>--}}

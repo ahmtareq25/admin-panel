@@ -8,7 +8,7 @@
                 <script>
                     document.write(new Date().getFullYear())
                 </script>
-                <a href="#">Faltu Panel</a>, made with love for a better web
+                <a href="#">web hook</a>
             </p>
         </nav>
     </div>

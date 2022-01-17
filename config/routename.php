@@ -13,7 +13,6 @@ return [
     'ROLE_AND_PAGE_ASSOCIATION_LANDING' => 'rolepages.index',
     'ROLE_AND_PAGE_ASSOCIATION_UPDATE' => 'rolepages.update',
 
-    'SYSTEM_SETTING_LANDING' => 'systemsetting.index',
     'SYSTEM_SETTING_UPDATE' => 'systemsetting.update',
 
 ];

@@ -27,6 +27,7 @@ class Permission
         }
 
         if (!hasPermission(Route::currentRouteName())){
+            flash(__('permission denied'), 'danger');
             return redirect()->route('home');
         }
         return $next($request);

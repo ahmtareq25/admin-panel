@@ -3546,7 +3546,7 @@ fieldset[disabled] .form-control {
 .table .form-check .form-check-sign,
 .table .form-check .form-check-sign:before,
 .table .form-check .form-check-sign:after {
-    margin-top: -14px;
+    /*margin-top: -14px;*/
 }
 
 .card .table tbody td:first-child,

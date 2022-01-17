@@ -14,6 +14,9 @@
             @php
 
             $sideBarArr = session()->get('side_bar_array');
+            if (empty($sideBarArr)){
+                $sideBarArr = [];
+            }
 
 
             @endphp

@@ -5,6 +5,7 @@ use App\Models\Page;
 use App\Models\Role;
 use App\Models\RolePage;
 use App\Models\SubModule;
+use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Database\Seeder;
@@ -86,8 +87,7 @@ class BasicSetupSeeder extends Seeder
                 ['id' => 9, 'module_id' => 1000, 'sub_module_id' => 2002, 'name' => 'Role & Page Association Landing', 'route_name' => config('routename.ROLE_AND_PAGE_ASSOCIATION_LANDING'), 'is_landing_page' => 1],
                 ['id' => 10, 'module_id' => 1000, 'sub_module_id' => 2002, 'name' => 'Role & Page Association Update', 'route_name' => config('routename.ROLE_AND_PAGE_ASSOCIATION_UPDATE'), 'is_landing_page' => 0],
 
-                ['id' => 11, 'module_id' => 1001, 'sub_module_id' => 2003, 'name' => 'System Settings Landing', 'route_name' => config('routename.SYSTEM_SETTING_LANDING'), 'is_landing_page' => 1],
-                ['id' => 12, 'module_id' => 1001, 'sub_module_id' => 2003, 'name' => 'System Settings Update', 'route_name' => config('routename.SYSTEM_SETTING_UPDATE'), 'is_landing_page' => 0],
+                ['id' => 11, 'module_id' => 1001, 'sub_module_id' => 2003, 'name' => 'System Settings', 'route_name' => config('routename.SYSTEM_SETTING_UPDATE'), 'is_landing_page' => 1],
 
             ];
 
@@ -109,6 +109,12 @@ class BasicSetupSeeder extends Seeder
             ];
 
             RolePage::insert($rolePage);
+
+            SystemSetting::create([
+                'site_title' => 'WEB HOOK ADMIN',
+                'logo' => '',
+                'fav_icon' => '/assets/img/favicon.ico'
+            ]);
 
 
             DB::commit();

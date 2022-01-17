@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::match(['GET', 'POST'],'/edit/{id}', 'Admin\RoleController@edit')
                 ->name(config('routename.ROLE_EDIT'));
 
-            Route::post('/delete/{id}', 'Admin\RoleController@delete')
+            Route::delete('/delete/{id}', 'Admin\RoleController@delete')
                 ->name(config('routename.ROLE_DELETE'));
         });
 
@@ -74,16 +74,12 @@ Route::group(['middleware' => 'auth'], function(){
             Route::get('/', 'Admin\RolePageAssociationController@index')
                 ->name(config('routename.ROLE_AND_PAGE_ASSOCIATION_LANDING'));
 
-            Route::match(['GET', 'POST'],'/edit/{id}', 'Admin\RolePageAssociationController@updateRolePageAssociation')
+            Route::match(['GET', 'POST'],'/edit/{role_id?}', 'Admin\RolePageAssociationController@updateRolePageAssociation')
                 ->name(config('routename.ROLE_AND_PAGE_ASSOCIATION_UPDATE'));
         });
 
         Route::group(['prefix'=> 'system-settings'], function(){
-
-            Route::get('/', 'Admin\SystemSettingController@index')
-                ->name(config('routename.SYSTEM_SETTING_LANDING'));
-
-            Route::match(['GET', 'POST'],'/edit/{id}', 'Admin\SystemSettingController@updateRolePageAssociation')
+            Route::match(['GET', 'POST'],'/edit/{id?}', 'Admin\SystemSettingController@edit')
                 ->name(config('routename.SYSTEM_SETTING_UPDATE'));
         });
 

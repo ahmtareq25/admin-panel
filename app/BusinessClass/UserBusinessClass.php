@@ -1,7 +1,6 @@
 <?php
 
 namespace App\BusinessClass;
-
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,13 +11,13 @@ class UserBusinessClass
     public $status_message;
     public $userObj;
 
-    public function getRequestParams(){
+    public function getAcceptableRequestParams(){
         return [
             'name', 'email', 'phone_number', 'password', 'confirm_password', 'roles'
         ];
     }
 
-    public function processUserCreate($requestData, $parent_user_id = 0){
+    public function processSave($requestData, $parent_user_id, $authObj){
 
         $logData['action'] = 'USER ADD';
 
@@ -58,7 +57,7 @@ class UserBusinessClass
 
     }
 
-    public function processUserUpdate($requestData, $id){
+    public function processUpdate($requestData, $id, $authObj = null){
         $logData['action'] = 'USER UPDATE';
         $this->userObj = (new User())->findUserById($id);
 
@@ -100,8 +99,9 @@ class UserBusinessClass
         createLog($logData);
     }
 
-    public function processUserDelete($id, $authUserObj){
 
+    public function processDelete($id, $authUserObj)
+    {
         if ($id == $authUserObj->id){
             $this->status_code = config('systemresponse.AUTH_USER_DELETE_FAILED.CODE');
             $this->status_message = config('systemresponse.AUTH_USER_DELETE_FAILED.MESSAGE');
@@ -155,7 +155,8 @@ class UserBusinessClass
     }
 
 
-    public function getUsers($search){
+    public function getAllData($search)
+    {
         $query = User::query();
 
         if (!empty($search['search'])){
@@ -173,7 +174,6 @@ class UserBusinessClass
         }
         return $res;
     }
-
 
 
     private function prepareUserData($requestData, $parent_user_id = 0){

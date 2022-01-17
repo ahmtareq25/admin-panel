@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\UserRequest;
+namespace App\Http\Requests;
 
 use App\Traits\CommonResponseTrait;
-
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class UserRequest extends FormRequest
+class RoleRequest extends FormRequest
 {
     use CommonResponseTrait;
     /**
@@ -29,21 +28,12 @@ class UserRequest extends FormRequest
     public function rules()
     {
         if (!request()->isMethod('get')){
-            $rules = [
-                'name' => 'required|min:5|max:100',
-                'phone_number' => 'required',
-                'roles' => 'required|array|min:1',
-                'email' => 'required|unique:users',
-            ];
 
-            if (request()->routeIs(config('routename.USER_EDIT'))){
-                $rules['email'] = 'required|unique:users,email,'.$this->id;
-                if (isset($this->password)){
-                    $rules['password'] = 'required|confirmed|min:8';
-                }
+            if (request()->routeIs(config('routename.ROLE_EDIT'))){
+                $rules['name'] = 'required|min:5|max:100|unique:roles,name,'.$this->id;
+
             }else{
-                $rules['email'] = 'required|unique:users';
-                $rules['password'] = 'required|confirmed|min:8';
+                $rules['name'] = 'required|min:5|max:100|unique:roles,name';
             }
             return $rules;
         }
@@ -59,7 +49,7 @@ class UserRequest extends FormRequest
 
             return $this->sendFailJsonResponse(config('BASIC_VALIDATION_FAILED.CODE'),
                 config('BASIC_VALIDATION_FAILED.MESSAGE'), $validator->errors(),
-                $this->routeIs(config('routename.USER_EDIT')) ? 'USER UPDATE' :'USER ADD' );
+                $this->routeIs(config('routename.ROLE_EDIT')) ? 'ROLE UPDATE' :'ROLE ADD' );
 
         }else{
             throw (new ValidationException($validator))
