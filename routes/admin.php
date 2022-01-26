@@ -86,5 +86,9 @@ Route::group(['middleware' => 'auth'], function(){
 
 
     });
+    Route::match(['DELETE', 'POST'],'/file-upload', 'Admin\FileUploadController@upload')->name('file.upload');
+
 });
+
+
 

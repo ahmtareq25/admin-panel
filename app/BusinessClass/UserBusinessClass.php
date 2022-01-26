@@ -71,7 +71,7 @@ class UserBusinessClass
             try {
                 DB::beginTransaction();
                 $userData = $this->prepareUserData($requestData);
-
+                $userData['permission_version'] = $this->userObj->permission_version + 1;
                 $this->userObj->update($userData);
                 $roleData = $requestData['roles'];
                 $this->userObj->roles()->sync($roleData);
@@ -139,8 +139,6 @@ class UserBusinessClass
                 DB::rollBack();
                 $this->status_code = config('systemresponse.OPERATION_FAILED.CODE');
                 $this->status_message = config('systemresponse.OPERATION_FAILED.MESSAGE');
-
-
 
             }
 

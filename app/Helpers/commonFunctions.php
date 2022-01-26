@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 function hasPermission($route_name){
     $routeList = empty(session()->get('permitted_route_list')) ? []: session()->get('permitted_route_list');
@@ -166,5 +167,13 @@ function commonDateFormat($date, $type =1){
     }
     $date->format('Y-m-d');
     return $date;
+}
+
+function getFullUrlFromDbValue($db_value, $disk ='bucket'){
+    return Storage::disk($disk)->url($db_value);
+}
+
+function fileExist($db_value, $disk = 'bucket'){
+    return Storage::disk($disk)->exists($db_value);
 }
 

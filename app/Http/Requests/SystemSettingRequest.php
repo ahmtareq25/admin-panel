@@ -25,9 +25,9 @@ class SystemSettingRequest extends FormRequest
     {
         if (!request()->isMethod('get')){
             return [
-                'site_title' => 'required|min:5|max:100',
-                'fav_icon' => 'required|image|mimes:jpeg,png,jpg|max:512',
-                'logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'site_title' => 'required|min:4|max:100',
+//                'fav_icon' => 'required',
+//                'logo' => 'required',
             ];
         }
         return [];

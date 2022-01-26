@@ -19,22 +19,27 @@
 
 <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
 <script src="{{asset('assets/js/light-bootstrap-dashboard.js?v=2.0.0')}} " type="text/javascript"></script>
+
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+
+<script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{asset('assets/js/demo.js')}}"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
+   /* $(document).ready(function() {
         // Javascript method's body can be found in assets/js/demos.js
         // demo.initDashboardPageCharts();
 
 
 
         //sidebar managing
-        var moduleLi = $('.nav-item').find('.active').parents('li');
-        moduleLi.addClass('active');
-        moduleLi.children('div').addClass('show')
 
 
-    });
+
+    });*/
+    var moduleLi = $('.nav-item').find('.active').parents('li');
+    moduleLi.addClass('active');
+    moduleLi.children('div').addClass('show')
     $('.selectpicker').selectpicker();
 
 
@@ -54,6 +59,46 @@
         $('button.cancel').addClass('btn btn-light').text("{{ __('Cancel')}}");
         $('button.ok').addClass('btn btn-danger').text("{{ __('Yes')}}");
     }
+
+    $('.filepond-input').filepond();
+
+
+    var fileUploadUrl = "{{route('file.upload')}}"
+
+    FilePond.setOptions({
+        server: {
+            url: fileUploadUrl,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            onload: (response) => {
+               console.log(response);
+            }
+        }
+    });
+
+    FilePond.setOptions({
+        server: {
+            url: fileUploadUrl,
+            timeout: 7000,
+            process: {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                withCredentials: false,
+                onload: (response) => {
+                    var responseParse = JSON.parse(response);
+                    return responseParse.data.path;
+                },
+                onerror: (response) => response.data,
+                ondata: (formData) => {
+
+                    return formData;
+                },
+            }
+        },
+    });
 
     // $('.sidebar-link').on('click', function (e) {
     //     e.preventDefault();

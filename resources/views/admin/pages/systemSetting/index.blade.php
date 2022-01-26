@@ -15,7 +15,7 @@
                             <label class="col-sm-2 control-label">{{__('Site Title')}}</label>
                             <div class="col-sm-10">
                                 <div class="form-group">
-                                    <input name="site_title" type="text" class="form-control @error('site_title') is-invalid @enderror" value="{{old('site_title')}}">
+                                    <input name="site_title" type="text" class="form-control @error('site_title') is-invalid @enderror" value="{{!empty(old('site_title')) ? old('site_title') : $systemSettingObj->site_title}}">
                                     @error('site_title')
                                     <label id="name-error" class="error" for="site_title">{{$message}}</label>
                                     @enderror
@@ -28,21 +28,31 @@
                             <label class="col-sm-2 control-label">{{__('Favicon')}}</label>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="fav_icon" type="file" class="form-control @error('fav_icon') is-invalid @enderror" placeholder="">
+                                    <input name="fav_icon" type="file" class="filepond-input @error('fav_icon') is-invalid @enderror" placeholder="">
                                     @error('fav_icon')
                                     <label id="fav_icon-error" class="error" for="fav_icon">{{$message}}</label>
                                     @enderror
                                 </div>
+
+                                @if(fileExist($systemSettingObj->fav_icon))
+                                    <img src="{{getFullUrlFromDbValue($systemSettingObj->fav_icon)}}" class="rounded float-left img-thumbnail">
+                                @endif
+
+
                             </div>
                             <label class="col-sm-2 control-label">{{__('Logo')}}</label>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="logo" type="file" class="form-control @error('logo') is-invalid @enderror" placeholder="">
+                                    <input name="logo" type="file" class="filepond-input @error('logo') is-invalid @enderror" placeholder="">
                                     @error('logo')
                                     <label id="logo-error" class="error" for="logo">{{$message}}</label>
                                     @enderror
                                 </div>
+                                @if(fileExist($systemSettingObj->logo))
+                                    <img src="{{getFullUrlFromDbValue($systemSettingObj->logo)}}" class="rounded float-left img-thumbnail">
+                                @endif
                             </div>
+
                         </div>
                     </form>
                 </div>

@@ -8,4 +8,9 @@ class SystemSetting extends Model
 {
     protected $guarded = [];
     public $timestamps = false;
+
+
+    public function findById($id){
+        return $this->find($id);
+    }
 }

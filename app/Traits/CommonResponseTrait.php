@@ -14,7 +14,7 @@ trait CommonResponseTrait
 
         $this->createLog($action_name, $response);
 
-        return response()->json($response);
+        return response()->json($response,200);
     }
 
 
@@ -28,7 +28,7 @@ trait CommonResponseTrait
 
         $this->createLog($action_name, $response);
 
-        return response()->json($response);
+        return response()->json($response, 400);
     }
 
     private function createLog($action_name, $response){

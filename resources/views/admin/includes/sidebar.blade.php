@@ -1,14 +1,34 @@
-<div class="sidebar" data-image="{{asset('assets/img/sidebar-4.jpg')}}" data-color="black">
+<div class="sidebar" data-image="{{asset('assets/img/sidebar-511.jpg')}}" data-color="black">
 
     <div class="sidebar-wrapper scroll">
 
-        <div class="logo d-flex justify-content-center">
+        <div class="logo d-block justify-content-center">
 {{--            <a href="https://www.creative-tim.com/?_ga=2.147099319.1848398775.1641599794-520301098.1641322474" class="simple-text logo-mini">--}}
 {{--                Ct--}}
 {{--            </a>--}}
-            <a href="{{route('home')}}" class="simple-text logo-normal">
-                Faltu Admin Panel
-            </a>
+
+            @php
+                $logo = '';
+                if (!empty(Cookie::get('logo')) && fileExist(Cookie::get('logo'))){
+                    $logo = getFullUrlFromDbValue(Cookie::get('logo'));
+                }
+                $siteTitle = 'WebHook Admin Panel';
+                if (!empty(Cookie::get('logo'))){
+                    $siteTitle = Cookie::get('logo');
+                }
+            @endphp
+
+                @if(empty($logo))
+                <a href="{{route('home')}}" class="simple-text logo-text">
+                    {{$siteTitle}}
+                </a>
+                @else
+                    <a href="{{route('home')}}" >
+                        <img src="{{$logo}}" width="100%">
+                    </a>
+
+                @endif
+
         </div>
         <ul class="nav">
             @php
